@@ -203,6 +203,7 @@ const QuizProvider = ({ children }) => {
         setSelectedQuiz,
         selectedQuiz,
         setAnswer,
+        setQuizzes,
       }}
     >
       {children}

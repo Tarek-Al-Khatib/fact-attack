@@ -3,12 +3,13 @@ import { quizContext } from "../context/QuizContext";
 import Button from "@mui/material/Button";
 
 const Quiz = () => {
-  const { incrementScore, setSelectedQuiz, selectedQuiz, setAnswer } =
-    useContext(quizContext);
-
-  useEffect(() => {
-    console.log(selectedQuiz);
-  }, [selectedQuiz]);
+  const {
+    incrementScore,
+    setSelectedQuiz,
+    selectedQuiz,
+    setAnswer,
+    setQuizzes,
+  } = useContext(quizContext);
 
   const calculateScore = () => {
     let totalScore = 0;
@@ -23,6 +24,12 @@ const Quiz = () => {
       ...prev,
       score: totalScore,
     }));
+
+    setQuizzes((prevQuizzes) =>
+      prevQuizzes.map((quiz) =>
+        quiz.id === selectedQuiz.id ? { ...quiz, score: totalScore } : quiz
+      )
+    );
   };
 
   const handleAnswerChange = (questionId, value) => {
