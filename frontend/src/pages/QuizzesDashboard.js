@@ -7,9 +7,6 @@ import { quizContext } from "../context/QuizContext";
 const QuizzesDashboard = () => {
   const { quizzes, setSelectedQuiz, selectedQuiz } = useContext(quizContext);
 
-  useEffect(() => {
-    console.log(selectedQuiz);
-  }, [selectedQuiz]);
   return (
     <div style={{ padding: "20px" }}>
       {!selectedQuiz && (

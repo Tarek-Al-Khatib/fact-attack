@@ -163,6 +163,17 @@ const QuizProvider = ({ children }) => {
         return quiz;
       })
     );
+
+    if (selectedQuiz?.id === quizId) {
+      setSelectedQuiz((prev) => ({
+        ...prev,
+        questions: prev.questions.map((question) =>
+          question.id === questionId
+            ? { ...question, answer: userAnswer }
+            : question
+        ),
+      }));
+    }
   };
 
   return (

@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { quizContext } from "../context/QuizContext";
 import Button from "@mui/material/Button";
 
 const Quiz = () => {
-  const { incrementScore, setSelectedQuiz, selectedQuiz, setAnswer } =
-    useContext(quizContext);
+  const { setSelectedQuiz, selectedQuiz, setAnswer } = useContext(quizContext);
+
+  useEffect(() => {
+    console.log(selectedQuiz.questions);
+  }, [selectedQuiz.questions]);
+
+  const handleAnswerChange = (questionId, value) => {
+    setAnswer(selectedQuiz.id, questionId, value);
+  };
+
   return (
     <div
       style={{
@@ -42,22 +50,32 @@ const Quiz = () => {
                       paddingLeft: "8px",
                     }}
                   >
-                    {option}
+                    <label>
+                      <input
+                        type="radio"
+                        name={`question-${question.id}`}
+                        value={option}
+                        onChange={() => handleAnswerChange(question.id, option)}
+                      />
+                      {option}
+                    </label>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p
+              <textarea
                 style={{
-                  padding: "4px",
+                  width: "100%",
+                  padding: "8px",
                   border: "1px solid #ddd",
                   borderRadius: "4px",
                   marginTop: "6px",
-                  backgroundColor: "#f9f9f9",
                 }}
-              >
-                [User Input]
-              </p>
+                placeholder="Type your answer here..."
+                onChange={(e) =>
+                  handleAnswerChange(question.id, e.target.value)
+                }
+              ></textarea>
             )}
           </div>
         ))}
