@@ -122,6 +122,7 @@ const QuizProvider = ({ children }) => {
     },
   ]);
 
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   const incrementScore = (quizId, points) => {
     setQuizzes((prevQuizzes) =>
       prevQuizzes.map((quiz) =>
@@ -131,7 +132,9 @@ const QuizProvider = ({ children }) => {
   };
 
   return (
-    <quizContext.Provider value={{ quizzes, incrementScore }}>
+    <quizContext.Provider
+      value={{ quizzes, incrementScore, setSelectedQuiz, selectedQuiz }}
+    >
       {children}
     </quizContext.Provider>
   );

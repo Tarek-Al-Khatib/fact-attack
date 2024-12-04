@@ -6,13 +6,13 @@ import QuizProvider from "./context/QuizContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <QuizProvider>
+    <QuizProvider>
+      <BrowserRouter>
+        <Routes>
           <Route path="/quiz" element={<QuizzesDashboard />} />
-        </QuizProvider>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </QuizProvider>
   );
 }
 
