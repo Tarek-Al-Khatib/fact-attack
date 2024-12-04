@@ -14,6 +14,7 @@ const QuizProvider = ({ children }) => {
           question: "What is the React Context API used for?",
           options: ["State management", "Styling", "Testing", "Building APIs"],
           type: "options",
+          answer: "",
         },
         {
           id: 2,
@@ -25,6 +26,7 @@ const QuizProvider = ({ children }) => {
             "newContext()",
           ],
           type: "options",
+          answer: "",
         },
         {
           id: 3,
@@ -32,17 +34,20 @@ const QuizProvider = ({ children }) => {
             "What hook is used to consume a Context in functional components?",
           options: ["useState", "useEffect", "useContext", "useReducer"],
           type: "options",
+          answer: "",
         },
         {
           id: 4,
           question:
             "Explain how you would provide a Context to a tree of components.",
           type: "input",
+          answer: "",
         },
         {
           id: 5,
           question: "What is the difference between Context API and Redux?",
           type: "input",
+          answer: "",
         },
       ],
       score: 0,
@@ -57,6 +62,7 @@ const QuizProvider = ({ children }) => {
           question: "What is the default templating engine in Laravel?",
           options: ["Twig", "Blade", "Handlebars", "EJS"],
           type: "options",
+          answer: "",
         },
         {
           id: 2,
@@ -68,18 +74,26 @@ const QuizProvider = ({ children }) => {
             "artisan init",
           ],
           type: "options",
+          answer: "",
         },
         {
           id: 3,
           question: "What is the role of the `.env` file in Laravel?",
           type: "input",
+          answer: "",
         },
         {
           id: 4,
           question: "Name the function used to define a route in Laravel.",
           type: "input",
+          answer: "",
         },
-        { id: 5, question: "What is Eloquent in Laravel?", type: "input" },
+        {
+          id: 5,
+          question: "What is Eloquent in Laravel?",
+          type: "input",
+          answer: "",
+        },
       ],
       score: 0,
     },
@@ -93,18 +107,21 @@ const QuizProvider = ({ children }) => {
           question: "Which command is used to create a new table?",
           options: ["CREATE TABLE", "ADD TABLE", "NEW TABLE", "INSERT TABLE"],
           type: "options",
+          answer: "",
         },
         {
           id: 2,
           question: "Which SQL clause is used to filter records?",
           options: ["WHERE", "SELECT", "ORDER BY", "GROUP BY"],
           type: "options",
+          answer: "",
         },
         {
           id: 3,
           question:
             "What is the difference between `INNER JOIN` and `LEFT JOIN`?",
           type: "input",
+          answer: "",
         },
         {
           id: 4,
@@ -116,6 +133,7 @@ const QuizProvider = ({ children }) => {
           id: 5,
           question: "What does the `GROUP BY` clause do in SQL?",
           type: "input",
+          answer: "",
         },
       ],
       score: 0,
@@ -131,9 +149,31 @@ const QuizProvider = ({ children }) => {
     );
   };
 
+  const setAnswer = (quizId, questionId, userAnswer) => {
+    setQuizzes((prevQuizzes) =>
+      prevQuizzes.map((quiz) => {
+        if (quiz.id === quizId) {
+          const updatedQuestions = quiz.questions.map((question) =>
+            question.id === questionId
+              ? { ...question, answer: userAnswer }
+              : question
+          );
+          return { ...quiz, questions: updatedQuestions };
+        }
+        return quiz;
+      })
+    );
+  };
+
   return (
     <quizContext.Provider
-      value={{ quizzes, incrementScore, setSelectedQuiz, selectedQuiz }}
+      value={{
+        quizzes,
+        incrementScore,
+        setSelectedQuiz,
+        selectedQuiz,
+        setAnswer,
+      }}
     >
       {children}
     </quizContext.Provider>

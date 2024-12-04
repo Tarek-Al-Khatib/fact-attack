@@ -3,9 +3,8 @@ import { quizContext } from "../context/QuizContext";
 import Button from "@mui/material/Button";
 
 const Quiz = () => {
-  const { incrementScore, setSelectedQuiz, selectedQuiz } =
+  const { incrementScore, setSelectedQuiz, selectedQuiz, setAnswer } =
     useContext(quizContext);
-
   return (
     <div
       style={{
