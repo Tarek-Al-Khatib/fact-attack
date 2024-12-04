@@ -15,6 +15,7 @@ const QuizProvider = ({ children }) => {
           options: ["State management", "Styling", "Testing", "Building APIs"],
           type: "options",
           answer: "",
+          solution: "State management",
         },
         {
           id: 2,
@@ -27,6 +28,7 @@ const QuizProvider = ({ children }) => {
           ],
           type: "options",
           answer: "",
+          solution: "createContext()",
         },
         {
           id: 3,
@@ -35,6 +37,7 @@ const QuizProvider = ({ children }) => {
           options: ["useState", "useEffect", "useContext", "useReducer"],
           type: "options",
           answer: "",
+          solution: "useContext",
         },
         {
           id: 4,
@@ -42,14 +45,19 @@ const QuizProvider = ({ children }) => {
             "Explain how you would provide a Context to a tree of components.",
           type: "input",
           answer: "",
+          solution:
+            "You use the Context.Provider component to wrap the components you want to share the context with, passing the value as a prop.",
         },
         {
           id: 5,
           question: "What is the difference between Context API and Redux?",
           type: "input",
           answer: "",
+          solution:
+            "The Context API is primarily for passing data through a component tree without props, while Redux is a state management library with a more complex and feature-rich ecosystem for managing global state.",
         },
       ],
+
       score: 0,
     },
     {
@@ -63,6 +71,7 @@ const QuizProvider = ({ children }) => {
           options: ["Twig", "Blade", "Handlebars", "EJS"],
           type: "options",
           answer: "",
+          solution: "Blade",
         },
         {
           id: 2,
@@ -70,31 +79,39 @@ const QuizProvider = ({ children }) => {
           options: [
             "laravel create",
             "laravel new",
-            "composer create-project",
+            "composer create-project laravel/laravel",
             "artisan init",
           ],
           type: "options",
           answer: "",
+          solution: "composer create-project laravel/laravel",
         },
         {
           id: 3,
           question: "What is the role of the `.env` file in Laravel?",
           type: "input",
           answer: "",
+          solution:
+            "The `.env` file is used to store environment-specific variables such as database credentials, API keys, and other configuration settings.",
         },
         {
           id: 4,
           question: "Name the function used to define a route in Laravel.",
           type: "input",
           answer: "",
+          solution:
+            "The `Route::get()` function is commonly used to define routes in Laravel. Other methods like `Route::post()`, `Route::put()`, etc., are also used for different HTTP methods.",
         },
         {
           id: 5,
           question: "What is Eloquent in Laravel?",
           type: "input",
           answer: "",
+          solution:
+            "Eloquent is Laravel's built-in ORM (Object-Relational Mapping) tool that provides an elegant way to interact with databases, making it easier to query and manipulate data.",
         },
       ],
+
       score: 0,
     },
     {
@@ -108,6 +125,7 @@ const QuizProvider = ({ children }) => {
           options: ["CREATE TABLE", "ADD TABLE", "NEW TABLE", "INSERT TABLE"],
           type: "options",
           answer: "",
+          solution: "CREATE TABLE",
         },
         {
           id: 2,
@@ -115,6 +133,7 @@ const QuizProvider = ({ children }) => {
           options: ["WHERE", "SELECT", "ORDER BY", "GROUP BY"],
           type: "options",
           answer: "",
+          solution: "WHERE",
         },
         {
           id: 3,
@@ -122,20 +141,27 @@ const QuizProvider = ({ children }) => {
             "What is the difference between `INNER JOIN` and `LEFT JOIN`?",
           type: "input",
           answer: "",
+          solution:
+            "`INNER JOIN` returns only the rows that have matching values in both tables, while `LEFT JOIN` returns all rows from the left table and matched rows from the right table, and NULL for unmatched rows.",
         },
         {
           id: 4,
           question:
             "Write an SQL query to find all users whose age is greater than 30.",
           type: "input",
+          answer: "",
+          solution: "SELECT * FROM users WHERE age > 30;",
         },
         {
           id: 5,
           question: "What does the `GROUP BY` clause do in SQL?",
           type: "input",
           answer: "",
+          solution:
+            "The `GROUP BY` clause groups rows that have the same values into summary rows, often used with aggregate functions like `COUNT()`, `SUM()`, `AVG()`, etc.",
         },
       ],
+
       score: 0,
     },
   ]);
