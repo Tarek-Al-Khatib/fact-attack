@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { createContext } from "react";
 
-const quizContext = createContext();
+export const quizContext = createContext();
 const QuizProvider = ({ children }) => {
   const [quizzes, setQuizzes] = useState([
     {
