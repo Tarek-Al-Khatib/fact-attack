@@ -150,20 +150,6 @@ const QuizProvider = ({ children }) => {
   };
 
   const setAnswer = (quizId, questionId, userAnswer) => {
-    setQuizzes((prevQuizzes) =>
-      prevQuizzes.map((quiz) => {
-        if (quiz.id === quizId) {
-          const updatedQuestions = quiz.questions.map((question) =>
-            question.id === questionId
-              ? { ...question, answer: userAnswer }
-              : question
-          );
-          return { ...quiz, questions: updatedQuestions };
-        }
-        return quiz;
-      })
-    );
-
     if (selectedQuiz?.id === quizId) {
       setSelectedQuiz((prev) => ({
         ...prev,
