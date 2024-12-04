@@ -30,6 +30,7 @@ const QuizzesDashboard = () => {
               <Button
                 key={quiz.id}
                 variant="contained"
+                disabled={quiz.score != 0}
                 onClick={() => {
                   setSelectedQuiz(quiz);
                 }}
