@@ -122,7 +122,19 @@ const QuizProvider = ({ children }) => {
     },
   ]);
 
-  const incrementScore = () => {};
+  const incrementScore = (quizId, points) => {
+    setQuizzes((prevQuizzes) =>
+      prevQuizzes.map((quiz) =>
+        quiz.id === quizId ? { ...quiz, score: quiz.score + points } : quiz
+      )
+    );
+  };
+
+  return (
+    <quizContext.Provider value={{ quizzes, incrementScore }}>
+      {children}
+    </quizContext.Provider>
+  );
 };
 
 export default QuizProvider;
