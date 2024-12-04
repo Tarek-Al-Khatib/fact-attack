@@ -173,6 +173,13 @@ const QuizProvider = ({ children }) => {
         quiz.id === quizId ? { ...quiz, score: quiz.score + points } : quiz
       )
     );
+
+    if (selectedQuiz?.id === quizId) {
+      setSelectedQuiz((prev) => ({
+        ...prev,
+        score: prev.score + points,
+      }));
+    }
   };
 
   const setAnswer = (quizId, questionId, userAnswer) => {
