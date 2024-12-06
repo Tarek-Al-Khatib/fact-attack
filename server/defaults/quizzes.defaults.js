@@ -1,4 +1,4 @@
-const defaultQuizzes = [
+export const defaultQuizzes = [
   {
     title: "React Context Quiz",
     description: "Test your knowledge about React's Context API.",
@@ -139,5 +139,3 @@ const defaultQuizzes = [
     score: 0,
   },
 ];
-
-export default defaultQuizzes;
