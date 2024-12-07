@@ -9,14 +9,13 @@ const Auth = () => {
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
-    name: "",
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
 
   const [loginState, setLoginState] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -36,8 +35,7 @@ const Auth = () => {
     e.preventDefault();
 
     if (
-      !formState.name ||
-      !formState.email ||
+      !formState.username ||
       !formState.password ||
       !formState.confirmPassword
     ) {
@@ -57,15 +55,13 @@ const Auth = () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/register",
         {
-          name: formState.name,
+          username: formState.username,
           password: formState.password,
-          password_confirmation: formState.confirmPassword,
-          email: formState.email,
         }
       );
 
-      const user = response.data;
-      console.log(user);
+      console.log(response.data);
+      setSignup(false);
     } catch (error) {
       setError("Error: Unable to register.");
       console.error(error);
@@ -75,7 +71,7 @@ const Auth = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!loginState.email || !loginState.password) {
+    if (!loginState.username || !loginState.password) {
       setError("All fields are required.");
       return;
     }
@@ -84,20 +80,16 @@ const Auth = () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/login",
         {
-          email: loginState.email,
+          username: loginState.username,
           password: loginState.password,
         }
       );
-      const { access_token, username, email } = response.data;
-    localStorage.setItem("token", access_token);
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ username, email }) 
-    );
+      const { access_token, user } = response.data;
+      localStorage.setItem("token", access_token);
 
-    navigate("/layout");
+      navigate("/layout");
 
-    console.log("User logged in:", response.data);
+      console.log("User logged in:", response.data);
     } catch (error) {
       setError("Error: Unable to log in.");
       console.error(error);
@@ -112,15 +104,8 @@ const Auth = () => {
           <input
             type="text"
             name="name"
-            placeholder="Full Name"
-            value={formState.name}
-            onChange={handleInputChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={formState.email}
+            placeholder="Username"
+            value={formState.username}
             onChange={handleInputChange}
           />
           <input
@@ -155,10 +140,10 @@ const Auth = () => {
       ) : (
         <form onSubmit={handleLogin}>
           <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={loginState.email}
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={loginState.username}
             onChange={handleInputChange}
           />
           <input
