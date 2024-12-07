@@ -87,7 +87,7 @@ const Auth = () => {
         }
       );
       const { token, user } = response.data;
-      localStorage.setItem("token", access_token);
+      localStorage.setItem("token", token);
       setQuizzes(user.quizzes);
       navigate("/layout");
 
