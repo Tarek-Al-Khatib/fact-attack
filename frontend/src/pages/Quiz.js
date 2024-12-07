@@ -3,7 +3,7 @@ import { quizContext } from "../context/QuizContext";
 import Button from "@mui/material/Button";
 
 const Quiz = () => {
-  const { setSelectedQuiz, selectedQuiz, setAnswer, setQuizzes } =
+  const { quizzes, setSelectedQuiz, selectedQuiz, setAnswer, setQuizzes } =
     useContext(quizContext);
 
   const calculateScore = (totalScore) => {
@@ -14,13 +14,13 @@ const Quiz = () => {
 
     setQuizzes((prevQuizzes) =>
       prevQuizzes.map((quiz) =>
-        quiz.id === selectedQuiz.id ? { ...quiz, score: totalScore } : quiz
+        quiz._id === selectedQuiz._id ? { ...quiz, score: totalScore } : quiz
       )
     );
   };
 
   const handleAnswerChange = (questionId, value) => {
-    setAnswer(selectedQuiz.id, questionId, value);
+    setAnswer(selectedQuiz._id, questionId, value);
   };
 
   const handleSubmit = async () => {
@@ -29,7 +29,17 @@ const Quiz = () => {
     );
 
     if (allAnswered) {
-      const response = await axios.put("http://localhost:8080/quiz/");
+      const response = await axios.put(
+        "http://localhost:8080/quiz/",
+        {
+          quizzes: quizzes,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const totalScore = response.data.score;
       console.log(totalScore);
       calculateScore(totalScore);
@@ -61,7 +71,7 @@ const Quiz = () => {
 
       <div>
         {selectedQuiz.questions.map((question, index) => (
-          <div key={question.id} style={{ marginBottom: "12px" }}>
+          <div key={question._id} style={{ marginBottom: "12px" }}>
             <strong>Question {index + 1}:</strong> {question.question}
             {question.type === "options" ? (
               <ul style={{ listStyleType: "none", padding: "8px 0" }}>
@@ -79,10 +89,12 @@ const Quiz = () => {
                     <label>
                       <input
                         type="radio"
-                        name={`question-${question.id}`}
+                        name={`question-${question._id}`}
                         value={option}
                         checked={question.answer === option}
-                        onChange={() => handleAnswerChange(question.id, option)}
+                        onChange={() =>
+                          handleAnswerChange(question._id, option)
+                        }
                       />
                       {option}
                     </label>
@@ -101,7 +113,7 @@ const Quiz = () => {
                 placeholder="Type your answer here..."
                 value={question.answer}
                 onChange={(e) =>
-                  handleAnswerChange(question.id, e.target.value)
+                  handleAnswerChange(question._id, e.target.value)
                 }
               ></textarea>
             )}

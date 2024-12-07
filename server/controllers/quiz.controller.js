@@ -3,12 +3,12 @@ import { User } from "../models/user.model.js";
 export const updateAnswers = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { quizId, answers } = req.body;
+    const { quizzes } = req.body;
 
-    if (!quizId || !answers) {
+    if (!quizzes || !Array.isArray(quizzes)) {
       return res
         .status(400)
-        .send({ message: "Quiz ID and answers are required" });
+        .send({ message: "Quizzes data must be an array and is required." });
     }
 
     const user = await User.findById(userId);
@@ -16,32 +16,48 @@ export const updateAnswers = async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    const quiz = user.quizzes.find((quiz) => quiz._id.toString() == quizId);
-    if (!quiz) {
-      return res.status(404).send({ message: "Quiz not found" });
-    }
+    let overallScore = 0;
 
-    let totalScore = 0;
+    quizzes.forEach((quizUpdate) => {
+      const quiz = user.quizzes.find(
+        (existingQuiz) => existingQuiz._id.toString() === quizUpdate.quizId
+      );
 
-    quiz.questions.forEach((question) => {
-      const userAnswer = answers[question._id];
-      question.answer = userAnswer;
-
-      if (userAnswer === question.solution) {
-        totalScore += 10;
+      if (!quiz) {
+        throw new Error(`Quiz with ID ${quizUpdate.quizId} not found.`);
       }
-    });
 
-    quiz.score = totalScore;
+      let quizScore = 0;
+
+      quizUpdate.questions.forEach((questionUpdate) => {
+        const question = quiz.questions.find(
+          (existingQuestion) =>
+            existingQuestion._id.toString() === questionUpdate.questionId
+        );
+
+        if (question) {
+          question.answer = questionUpdate.answer;
+
+          if (question.answer === question.solution) {
+            quizScore += 10;
+          }
+        }
+      });
+
+      quiz.score = quizScore;
+      overallScore += quizScore;
+    });
 
     await user.save();
 
     return res.status(200).send({
-      message: "Quiz updated successfully",
-      score: totalScore,
+      message: "All quizzes updated successfully",
+      score: overallScore,
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ message: "Internal server error" });
+    return res
+      .status(500)
+      .send({ message: "Internal server error", error: error.message });
   }
 };

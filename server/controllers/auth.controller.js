@@ -25,7 +25,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const token = await jwt.sign({ userId: user.id }, "secret");
+    const token = await jwt.sign({ userId: user.id }, "fact-attack");
 
     return res.status(200).send({ user, token });
   } catch (error) {

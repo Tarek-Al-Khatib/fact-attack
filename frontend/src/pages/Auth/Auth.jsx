@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/base/utilities.css";
 import "../../css/auth.css";
+import { quizContext } from "../../context/QuizContext";
 
 const Auth = () => {
+  const { setQuizzes } = useContext(quizContext);
   const [signup, setSignup] = useState(false);
   const navigate = useNavigate();
 
@@ -84,9 +86,9 @@ const Auth = () => {
           password: loginState.password,
         }
       );
-      const { access_token, user } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem("token", access_token);
-
+      setQuizzes(user.quizzes);
       navigate("/layout");
 
       console.log("User logged in:", response.data);
