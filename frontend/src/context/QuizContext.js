@@ -18,6 +18,23 @@ const QuizProvider = ({ children }) => {
         ),
       }));
     }
+
+    if (quizzes) {
+      setQuizzes((prevQuizzes) =>
+        prevQuizzes.map((quiz) =>
+          quiz._id === quizId
+            ? {
+                ...quiz,
+                questions: quiz.questions.map((question) =>
+                  question._id === questionId
+                    ? { ...question, answer: userAnswer }
+                    : question
+                ),
+              }
+            : quiz
+        )
+      );
+    }
   };
 
   return (

@@ -4,7 +4,7 @@ export const updateAnswers = async (req, res) => {
   try {
     const user = req.user;
     const { quizzes } = req.body;
-    console.log(quizzes);
+    console.log(quizzes[0].questions);
 
     if (!quizzes || !Array.isArray(quizzes)) {
       return res

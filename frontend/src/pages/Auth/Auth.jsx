@@ -99,7 +99,7 @@ const Auth = () => {
         <form onSubmit={handleRegister}>
           <input
             type="text"
-            name="name"
+            name="username"
             placeholder="Username"
             value={formState.username}
             onChange={handleInputChange}

@@ -7,6 +7,28 @@ const Quiz = () => {
   const { quizzes, setSelectedQuiz, selectedQuiz, setAnswer, setQuizzes } =
     useContext(quizContext);
 
+  const updateQuizzes = async () => {
+    try {
+      const response = await axios.put(
+        "http://localhost:8080/quiz/",
+        { quizzes: quizzes },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating quizzes:", error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    updateQuizzes();
+  }, [quizzes[0].score, quizzes[1].score, quizzes[2].score]);
+
   const calculateScore = async () => {
     let totalScore = 0;
 
@@ -26,19 +48,7 @@ const Quiz = () => {
         quiz._id === selectedQuiz._id ? { ...quiz, score: totalScore } : quiz
       )
     );
-
-    const response = await axios.put(
-      "http://localhost:8080/quiz/",
-      {
-        quizzes: quizzes,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    console.log(response.data);
+    console.log(quizzes);
   };
 
   const handleAnswerChange = (questionId, value) => {
