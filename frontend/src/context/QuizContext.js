@@ -8,11 +8,11 @@ const QuizProvider = ({ children }) => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const setAnswer = (quizId, questionId, userAnswer) => {
-    if (selectedQuiz?.id === quizId) {
+    if (selectedQuiz?._id === quizId) {
       setSelectedQuiz((prev) => ({
         ...prev,
         questions: prev.questions.map((question) =>
-          question.id === questionId
+          question._id === questionId
             ? { ...question, answer: userAnswer }
             : question
         ),
