@@ -2,8 +2,9 @@ import { User } from "../models/user.model.js";
 
 export const updateAnswers = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const user = req.user;
     const { quizzes } = req.body;
+    console.log(quizzes);
 
     if (!quizzes || !Array.isArray(quizzes)) {
       return res
@@ -11,48 +12,19 @@ export const updateAnswers = async (req, res) => {
         .send({ message: "Quizzes data must be an array and is required." });
     }
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
-    }
-
-    let overallScore = 0;
-
-    quizzes.forEach((quizUpdate) => {
-      const quiz = user.quizzes.find(
-        (existingQuiz) => existingQuiz._id.toString() === quizUpdate.quizId
-      );
-
-      if (!quiz) {
-        throw new Error(`Quiz with ID ${quizUpdate.quizId} not found.`);
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        quizzes: quizzes,
+      },
+      {
+        new: true,
       }
-
-      let quizScore = 0;
-
-      quizUpdate.questions.forEach((questionUpdate) => {
-        const question = quiz.questions.find(
-          (existingQuestion) =>
-            existingQuestion._id.toString() === questionUpdate.questionId
-        );
-
-        if (question) {
-          question.answer = questionUpdate.answer;
-
-          if (question.answer === question.solution) {
-            quizScore += 10;
-          }
-        }
-      });
-
-      quiz.score = quizScore;
-      overallScore += quizScore;
-    });
-
-    await user.save();
+    );
 
     return res.status(200).send({
       message: "All quizzes updated successfully",
-      score: overallScore,
+      quizzes: updatedUser.quizzes,
     });
   } catch (error) {
     console.error(error);

@@ -14,14 +14,14 @@ export const authMiddleware = async (req, res, next) => {
 
   if (splitted.length !== 2 || splitted[0] !== "Bearer") {
     return res.status(401).send({
-      message: "Unauthorized",
+      message: "Unauthorized of length",
     });
   }
 
   const token = splitted[1];
 
   try {
-    const payload = await jwt.verify(token, "secret");
+    const payload = await jwt.verify(token, "fact-attack");
 
     const id = payload.userId;
 
@@ -32,7 +32,7 @@ export const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(401).send({
-      message: "Unauthorized",
+      message: "Unauthorized of error",
     });
   }
 };

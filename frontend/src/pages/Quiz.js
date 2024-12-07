@@ -7,7 +7,15 @@ const Quiz = () => {
   const { quizzes, setSelectedQuiz, selectedQuiz, setAnswer, setQuizzes } =
     useContext(quizContext);
 
-  const calculateScore = (totalScore) => {
+  const calculateScore = async () => {
+    let totalScore = 0;
+
+    selectedQuiz.questions.forEach((question) => {
+      if (question.answer === question.solution) {
+        totalScore += 10;
+      }
+    });
+
     setSelectedQuiz((prev) => ({
       ...prev,
       score: totalScore,
@@ -18,6 +26,19 @@ const Quiz = () => {
         quiz._id === selectedQuiz._id ? { ...quiz, score: totalScore } : quiz
       )
     );
+
+    const response = await axios.put(
+      "http://localhost:8080/quiz/",
+      {
+        quizzes: quizzes,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response.data);
   };
 
   const handleAnswerChange = (questionId, value) => {
@@ -30,20 +51,7 @@ const Quiz = () => {
     );
 
     if (allAnswered) {
-      const response = await axios.put(
-        "http://localhost:8080/quiz/",
-        {
-          quizzes: quizzes,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const totalScore = response.data.score;
-      console.log(totalScore);
-      calculateScore(totalScore);
+      calculateScore();
     } else {
       alert("Please answer all questions before submitting.");
     }
