@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { quizContext } from "../context/QuizContext";
+import axios from "axios";
 import Button from "@mui/material/Button";
 
 const Quiz = () => {

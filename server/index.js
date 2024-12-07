@@ -1,10 +1,16 @@
 import express from "express";
 import { connect } from "mongoose";
+import cors from "cors";
 import { authRouter } from "./routes/auth.routes.js";
 import { quizRouter } from "./routes/quiz.routes.js";
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use("/auth", authRouter);
 app.use("/quiz", quizRouter);
 

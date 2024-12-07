@@ -54,13 +54,10 @@ const Auth = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/register",
-        {
-          username: formState.username,
-          password: formState.password,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/auth/register", {
+        username: formState.username,
+        password: formState.password,
+      });
 
       console.log(response.data);
       setSignup(false);
@@ -79,17 +76,14 @@ const Auth = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/login",
-        {
-          username: loginState.username,
-          password: loginState.password,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        username: loginState.username,
+        password: loginState.password,
+      });
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       setQuizzes(user.quizzes);
-      navigate("/layout");
+      navigate("/quiz");
 
       console.log("User logged in:", response.data);
     } catch (error) {

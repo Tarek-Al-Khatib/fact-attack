@@ -28,7 +28,7 @@ const QuizzesDashboard = () => {
           >
             {quizzes.map((quiz) => (
               <Button
-                key={quiz.id}
+                key={quiz._id}
                 variant="contained"
                 disabled={quiz.score != 0}
                 onClick={() => {
